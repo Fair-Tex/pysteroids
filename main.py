@@ -9,6 +9,9 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
     
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
     player = Player((SCREEN_WIDTH/2), (SCREEN_HEIGHT/2))
 
     while True:
@@ -16,8 +19,14 @@ def main():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 return
+
         surface.fill('black')
-        player.draw(surface)
+
+        updatable.update(dt)
+        
+        for i in drawable:
+            i.draw(surface)
+
 
         pygame.display.flip()
         dt = clock.tick(60)/1000
